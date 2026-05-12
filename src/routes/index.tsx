@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = "service_dw1u0nh";
+const EMAILJS_TEMPLATE_ID = "template_u37iphb";
+const EMAILJS_PUBLIC_KEY = "u3QvI8HinEt57bz2w";
 import {
   Brain, Code2, BarChart3, Sparkles, Lightbulb, Cpu,
   Github, Linkedin, Instagram, Mail, ArrowRight, GraduationCap,
@@ -303,10 +308,31 @@ function Projects() {
 }
 
 function Contact() {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("Thanks! Your message has been noted ✨", { description: "I'll get back to you soon." });
-    (e.target as HTMLFormElement).reset();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setLoading(true);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: data.get("from_name"),
+          from_email: data.get("from_email"),
+          message: data.get("message"),
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+      toast.success("Message sent ✨", { description: "Thanks! I'll get back to you soon." });
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to send", { description: "Please try again or email me directly." });
+    } finally {
+      setLoading(false);
+    }
   };
   const socials = [
     { icon: Linkedin, href: "#", label: "LinkedIn" },
@@ -321,12 +347,14 @@ function Contact() {
           <h3 className="font-display text-2xl mb-2">Send a message</h3>
           <p className="text-muted-foreground text-sm mb-6">Drop a hello, an idea, or an opportunity.</p>
           <form onSubmit={onSubmit} className="space-y-4">
-            <input required type="email" placeholder="your@email.com"
+            <input required type="text" name="from_name" placeholder="Your name"
               className="w-full bg-input/50 border border-border rounded-xl px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition" />
-            <textarea required placeholder="Your message..." rows={5}
+            <input required type="email" name="from_email" placeholder="your@email.com"
+              className="w-full bg-input/50 border border-border rounded-xl px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition" />
+            <textarea required name="message" placeholder="Your message..." rows={5}
               className="w-full bg-input/50 border border-border rounded-xl px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition resize-none" />
-            <button type="submit" className="btn-glow rounded-xl px-6 py-3 font-semibold inline-flex items-center gap-2 w-full justify-center">
-              Send Message <Send className="size-4" />
+            <button type="submit" disabled={loading} className="btn-glow rounded-xl px-6 py-3 font-semibold inline-flex items-center gap-2 w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed">
+              {loading ? "Sending..." : <>Send Message <Send className="size-4" /></>}
             </button>
           </form>
         </div>
