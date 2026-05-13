@@ -335,7 +335,7 @@ function Contact() {
     }
   };
   const socials = [
-    { icon: Linkedin, href: "https://www.linkedin.com/in/kanishk-s-6a78983", label: "LinkedIn" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/kanishks071206-png/kanishk07", label: "GitHub" },
     { icon: Instagram, href: "#", label: "Instagram" },
     { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
