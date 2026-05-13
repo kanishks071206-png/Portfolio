@@ -336,7 +336,7 @@ function Contact() {
   };
   const socials = [
     { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Github, href: "#", label: "GitHub" },
+    { icon: Github, href: "https://github.com/kanishks071206-png/kanishk07", label: "GitHub" },
     { icon: Instagram, href: "#", label: "Instagram" },
     { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
   ];
