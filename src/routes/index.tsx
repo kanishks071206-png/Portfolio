@@ -338,7 +338,7 @@ function Contact() {
     { icon: Linkedin, href: "https://www.linkedin.com/in/kanishk-s-6a78983", label: "LinkedIn" },
     { icon: Github, href: "https://github.com/kanishks071206-png/kanishk07", label: "GitHub" },
     { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Mail, href: "mailto:kanishk.s07122006@gmail.com", label: "Email" },
+    { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
   ];
   return (
     <Section id="contact" eyebrow="Connect" title="Let's Build Something">
